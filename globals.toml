@@ -1,0 +1,23 @@
+# globals.toml - the curated symbols the translator copies into
+# build/recomp/symbols.json. One assignment per line; values are hex or
+# decimal integers. Filled in as the bring-up identifies them.
+#
+# The three entries below are PLACEHOLDERS: Petz 5's real simulation-turn,
+# command-frame and entity-base addresses are not identified yet. They carry the
+# kit stub's stand-in addresses (games/stub/globals.toml) so the host test
+# binaries that read RECOMP_GLOBAL_* (host/script.cpp, host/tests/host_tests.cpp)
+# compile and run. No gameplay path reads them, and no app/headless target links
+# script.cpp.
+[globals.simulation_turn]
+addr = 0x00700000
+size = 4
+
+[globals.command_frame]
+addr = 0x00700010
+size = 4
+
+[globals.entity_base]
+addr = 0x00701000
+size = 179
+stride = 179
+count = 2000
