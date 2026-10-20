@@ -1,0 +1,33 @@
+# Everything made from your own game files stays local.
+/original/
+/analysis/
+/build/
+/dist/
+/.venv/
+# The game installation, reference checkouts and downloaded tools.
+/pcgame/
+/ref/
+/devtools/
+/kit-wt/
+__pycache__/
+*.pyc
+.DS_Store
+CMakeUserPresets.json
+*.o
+*.a
+*.dylib
+*.dSYM/
+*.app/
+*.exe
+*.dll
+*.zip
+*.log
+# Game content and locally captured media never belong in the repository.
+*.pet
+*.toy
+*.clo
+*.cat
+*.dog
+*.env
+*.png
+*.wav

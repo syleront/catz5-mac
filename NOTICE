@@ -1,0 +1,48 @@
+Catz 5 — macOS recompilation port
+NOTICE
+
+This repository contains only recompilation tooling, configuration and native
+host code. It contains no game executables, data, artwork, audio, levels or
+other assets. A translated build is produced locally from the user's own copy
+of Catz 5 and is not distributed here.
+
+recomp-kit
+----------
+The kit/ submodule is recomp-kit, Copyright (c) 2026 veritr1x, licensed under
+the MIT License (see kit/LICENSE). It is forked at
+https://github.com/syleront/recomp-kit. Its own NOTICE (kit/NOTICE) lists the
+third-party components it vendors or fetches; the principal ones are:
+
+  - SDL3 — zlib License. Fetched at build time from libsdl-org/SDL at a pinned
+    release tag and linked statically.
+  - FFmpeg 7.1.1 — GNU Lesser General Public License version 2.1 or later.
+    Fetched at build time; libavformat, libavcodec and libavutil are linked
+    dynamically and bundled as replaceable macOS dylibs. See
+    kit/third_party/ffmpeg/NOTICE.md for the license text, exact source,
+    SHA-256 and configure command. FFmpeg is not covered by the MIT license.
+  - Lua 5.4.6 — MIT License.
+  - minimp3 — CC0 1.0 public domain dedication.
+  - stb_truetype 1.26 — MIT License or public domain.
+  - Open Sans 1.101 — Apache License, Version 2.0. Digitized data copyright
+    2010-2011 Google Corporation. Open Sans is a trademark of Google.
+  - GeneralUser GS 2.0.3 by S. Christian Collins — included under its own
+    permissive license.
+  - miniz 3.0.2 — MIT License.
+  - volk — MIT License (Copyright (c) 2018-2024 Arseny Kapoulkine).
+  - Vulkan headers — Apache License 2.0 or MIT (Copyright 2015-2025 The
+    Khronos Group Inc.).
+
+The complete license texts and source URLs are in kit/NOTICE and the
+corresponding third_party directories. The Vulkan loader, MoltenVK and Mesa's
+lavapipe are runtime components on the user's machine and are not distributed
+here.
+
+Game
+----
+Catz 5 (also sold as part of Petz 5) was developed by Studio Mythos and
+published by Ubi Soft in 2002. This is an independent interoperability project.
+It is not affiliated with or endorsed by Ubisoft, Ubi Soft, Studio Mythos or
+any rights holder of the Petz/Catz series. No game assets are distributed. You
+must own a legal copy of the game to build and run this port. Catz, Petz and
+all related names and marks are trademarks of their respective owners and are
+used here only to describe what the software interoperates with.

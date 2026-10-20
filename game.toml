@@ -1,0 +1,95 @@
+# game.toml - everything the kit needs to know about Petz 5 / Catz 5 (PC,
+# Ubi Soft / Studio Mythos, 2002) that is not derivable from the binary.
+# Addresses are guest addresses in the pinned executable.
+#
+# Values marked "sentinel" are not identified yet: they point into the
+# zero-filled tail of .rsrc (0x00c27506-0x00c27fff), which the game never
+# references, so the kit's Populous-shaped hooks compile and never fire.
+
+[game]
+id = "catz5"
+name = "Catz 5"
+app_name = "Catz5Recomp"
+bundle_id = "com.syleront.catz5recomp"
+# Release metadata for the macOS bundle (Contents/Info.plist). This is the one
+# place to bump a release: version is CFBundleShortVersionString and build is
+# CFBundleVersion.
+version = "0.1.0"
+build = 1
+signature = "C5RC"
+copyright = "Copyright © 2026 syleront. Catz 5 is a trademark of its respective owners. This app redistributes no game assets."
+minimum_macos = "14.0"
+executable = "Petz 5.exe"
+sha256 = "305a73d10205f11028b5554bf76eb2eb1be6e33b80ba1923fd1316fcd4cf4bdc"
+image_base = 0x00400000
+entry_point = 0x0059449a
+guest_root = 'C:\Program Files\Ubi Soft\Studio Mythos\Petz 5'
+# Where a developer checkout finds the game, relative to the repository root.
+developer_exe = "original/pcgame/Petz 5.exe"
+# A Windows 98 SE / ME era game; it also ran on 2000 and XP.
+windows_version = "4.10"
+
+[translate]
+listings = "analysis/decompiled/Petz 5.exe"
+globals = "globals.toml"
+# Native replacement for one translated function: Petz5Filmstrip::LoadBMP
+# (exe 004361b0) decodes a JPEG through the game's own XOpenDIB before parsing
+# the DIB as a BMP, so the Editor's Import Bitmap page accepts .jpg (see
+# native/catz5_overrides.h).
+native = { header = "native/catz5_overrides.h", sources = ["native/catz5_overrides.cpp"] }
+# Sentinel: no audited visual-phase counter yet.
+animation_counter = 0x00c27f00
+volatile_reads = []
+entry_points = []
+
+[hooks]
+# Sentinels until the bring-up finds the real sites.
+frame_clock_begin = 0x00c27f10
+frame_clock_wait = 0x00c27f14
+frame_clock_wait_clamp = 0x00c27f18
+frame_clock_clamp_deadline = 0x00c27f20
+frame_clock_wait_deadline = 0x00c27f24
+cursor_surface_ptrs = [0x00c27f28, 0x00c27f2c]
+mouse_vtable = 0x00c27f30
+mouse_device_ptr = 0x00c27f34
+mouse_device_right = 0x00c27f38
+camera = 0x00c27f40
+# The game owns its popup menus: it calls the native TrackPopupMenu but draws and
+# drives the menu with its own WinMenu window class. menu_track_popup is
+# WinMenu::PFTrackPopupMenu (the routine its custom-menu path already calls) and
+# menu_owner is the WinMenu::s_Self pointer global. The USER32 shim forwards
+# TrackPopupMenu there, because it has no owner-draw menu engine of its own.
+menu_track_popup = 0x00407cc0
+menu_owner = 0x00658868
+
+[modules]
+# The 376 content PE modules (.toy/.clo/.cat/.dog/.env) rebased to unique guest
+# bases by tools/rebase_content.py. tomllib has no include, so the kit's
+# game_config merges this generated fragment's [modules.aux.*] tables and
+# [game] guest_size before validation. Recreate it with tools/content_build.py
+# (or tools/build.py --content). A clean checkout can link and analyze without
+# it; --regenerate refuses to run until the content modules are prepared.
+aux_file = "build/content/modules.toml"
+
+[mods]
+# The kit's built-in integrations hook Populous routines by address.
+builtin = "none"
+[controls]
+# A mouse game: the pet is petted, picked up and played with by the cursor.
+default_layout = "hidden"
+pad = "mapped"
+
+[controls.mapped]
+left_stick = "cursor"
+right_stick = "none"
+
+[setup]
+required_dirs = ["Resource", "Adopted Petz", "Skinz"]
+
+[launcher]
+title = "Catz 5"
+install_names = ["Petz 5", "Catz 5", "pcgame"]
+
+[bundle]
+exclude = ["Uninst", "Manuals", "PetzPlayer", "Web Fun Pack", "*.cab", "dxsetup.exe", "dsetup*.dll",
+           "DSETUP.dll", "UBI1.EXE", "MMouse.VxD"]

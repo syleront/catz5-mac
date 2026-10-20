@@ -1,0 +1,4 @@
+[submodule "kit"]
+	path = kit
+	url = https://github.com/syleront/recomp-kit.git
+	branch = catz5

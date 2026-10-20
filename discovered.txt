@@ -1,0 +1,14 @@
+# Addresses a run reached that the translation did not carry, as
+# runtime/discovery.cpp writes them with RECOMP_DISCOVERY set. tools/build.py
+# passes this file to the kit as --discovered, so each regeneration adopts them
+# as entry points (both in the executable and in the content aux modules).
+# Regenerate by running the app with RECOMP_DISCOVERY=$(pwd)/discovered.txt.
+#
+# <address> <call|jump> <the instruction that named it> <times reached>
+#
+# Empty since the aux-module structural discovery rule (translate.py, module
+# mode): a relocated dword into a code section and an `FF 25 <IAT slot>`
+# import thunk are now accepted as structural entries, so the five addresses
+# this file used to carry (149a9d1c, 149aa396, 14d83af0, 14d8524c, 10004454)
+# are recovered from the modules themselves. Any future line here is a run's
+# gap the rule still does not cover.
